@@ -96,11 +96,11 @@ const Scene = () => {
             }
         }
 
-        const light1 = new THREE.DirectionalLight(0xffffff, 1);
+        const light1 = new THREE.DirectionalLight(0xffffff, 5);
         light1.position.set(1, 1, 1);
         scene.add(light1);
 
-        const light2 = new THREE.DirectionalLight(0xffffff, 0.5);
+        const light2 = new THREE.DirectionalLight(0xffffff, 2.5);
         light2.position.set(-1, -1, -1);
         scene.add(light2);
 
@@ -132,10 +132,8 @@ const Scene = () => {
                 if (cube !== hoveredCube) {
                     hoveredCube = cube;
                     if (!cube.userData.isSelected) {
-                        cube.material.color.set(0x832711);  // Correct way to change color
-                        cube.material.opacity = 0;
+                        cube.material.opacity = 1;
                         cube.material.emissive.setHex(0x333333);
-                        cube.material.needsUpdate = true;  // Force update
                     }
                 }
             }
@@ -149,14 +147,13 @@ const Scene = () => {
             if (intersects.length > 0) {
                 const cube = intersects[0].object;
                 cube.userData.isSelected = !cube.userData.isSelected;
-                
+
                 if (cube.userData.isSelected) {
                     cube.userData.targetScale = 1.5;
                     cube.userData.rotationSpeed = 0.05;
                     cube.material.color.setHSL(Math.random(), 1, 0.5);
                     cube.material.opacity = 1;
                 } else {
-                    console.log('boject:');
                     cube.userData.targetScale = 1;
                     cube.userData.rotationSpeed = 0.01;
                     cube.material.color.copy(cube.userData.initialColor);
@@ -165,27 +162,82 @@ const Scene = () => {
             }
         }
 
+        // Zoom handler
+        function onWheel(event) {
+            const zoomSpeed = 0.01;
+            camera.position.z = Math.max(5, Math.min(30, camera.position.z + event.deltaY * zoomSpeed));
+        }
+
         const animate = () => {
-            requestAnimationFrame(animate);
-            cubes.forEach((cube) => {
-                cube.rotation.x += 0.01;
-                cube.rotation.y += 0.01;
-            });
 
-            if (particleSystem.geometry && particleSystem.geometry.attributes.position) {
+            if (!isPaused) {
+                requestAnimationFrame(animate);
+
+                const time = Date.now() * 0.001;
+
+                // Update particles
+                const positions = particleSystem.geometry.attributes.position.array;
+                for (let i = 0; i < particleCount; i++){
+                    positions[i * 3] += velocities[i].x;
+                    positions[i * 3 + 1] += velocities[i].y;
+                    positions[i * 3 + 2] += velocities[i].z;
+        
+                    // Reset particles that go too far
+                    if (Math.abs(positions[i * 3]) > 15) positions[i * 3] = -positions[i * 3];
+                    if (Math.abs(positions[i * 3 + 1]) > 15) positions[i * 3 + 1] = -positions[i * 3 + 1];
+                    if (Math.abs(positions[i * 3 + 2]) > 15) positions[i * 3 + 2] = -positions[i * 3 + 2];                
+                }
                 particleSystem.geometry.attributes.position.needsUpdate = true;
-            }
+            
+                // Update cubes
+                cubes.forEach((cube, i) => {
+                    const offset = i * 0.1;
 
-            renderer.render(scene, camera);
+                    // Position animation
+                    cube.position.x = cube.userData.initialX + Math.sin(time + offset) * 0.5;
+                    cube.position.y = cube.userData.initialY + Math.cos(time + offset) * 0.5;
+
+                    // Pulse effect
+                    const pulse = Math.sin(time * 2 + cube.userData.pulsePhase) * 0.1;
+                    const targetScale = cube.userData.targetScale + pulse;
+
+                    // Smooth scale transition
+                    cube.scale.lerp(new THREE.Vector3(targetScale, targetScale, targetScale), 0.1);
+
+                    // Rotation
+                    cube.rotation.x += cube.userData.rotationSpeed;
+                    cube.rotation.y += cube.userData.rotationSpeed;
+                });
+
+                // Camera orbit
+                camera.position.x = Math.sin(time * 0.5) * 15;
+                camera.position.z = Math.cos(time * 0.5) * 15;
+                camera.lookAt(scene.position);
+
+                renderer.render(scene, camera);
+            }
         };
 
         window.addEventListener('mousemove', onMouseMove);
         window.addEventListener('click', onMouseClick);
+        window.addEventListener('wheel', onWheel);
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+        window.addEventListener('keydown', (event) => {
+            if (event.code === 'Space') {
+                isPaused = !isPaused;
+                if (!isPaused) animate();
+            }
+        });
+        
         animate();
 
         return () => {
-            window.removeEventListener('mousemove', onMouseMove);
-            window.removeEventListener('click', onMouseClick);
+            // window.removeEventListener('mousemove', onMouseMove);
+            // window.removeEventListener('click', onMouseClick);
             // if (mountRef.current && renderer.domElement) {
             //     mountRef.current.removeChild(renderer.domElement);
             // }

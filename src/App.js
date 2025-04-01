@@ -1,5 +1,5 @@
 import React from "react";
-import Scene from "./components/Scene";
+import Scene from "./components/CubeSelect";
 import "./assets/css/main.css";
 
 function App() {
