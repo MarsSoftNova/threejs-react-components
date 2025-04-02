@@ -1,0 +1,12 @@
+body {
+    margin: 0;
+    text-align: center;
+    /* cursor: crosshair; */
+}
+
+canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+

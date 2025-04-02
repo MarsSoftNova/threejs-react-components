@@ -1,0 +1,15 @@
+.lab-city-title {
+    width: 100vw;
+    position: fixed;
+    text-align: center;
+    top: 37%;
+    color: rgba(255,255,255, 0.5);
+}
+
+.lab-city-title > strong {
+    font-size: 5em;
+}
+
+.lab-city-title > p {
+    font-size: 1em;
+}

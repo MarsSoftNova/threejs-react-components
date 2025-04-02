@@ -248,7 +248,7 @@ const Scene = () => {
 
     return (
         <>
-            <div id="info">Click: Select cube | Hover: Highlight | Space: Pause</div>
+            <div id="cubesel-info">Click: Select cube | Hover: Highlight | Space: Pause</div>
             <div ref={mountRef} />
         </>
     );

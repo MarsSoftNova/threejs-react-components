@@ -1,14 +1,4 @@
-body { 
-    margin: 0;
-    overflow: hidden;
-    background: #000;
-}
-
-canvas {
-    display: block;
-}
-
-#info {
+#cubesel-info {
     position: fixed;
     top: 10px;
     left: 10px;

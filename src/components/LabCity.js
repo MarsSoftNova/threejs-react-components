@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from "react";
+import '../assets/css/labcity.css';
 import * as THREE from "three";
 import { TweenMax, Power1 } from "gsap/gsap-core";
 
@@ -241,7 +242,15 @@ const ThreeScene = () => {
         };
     }, []);
 
-    return <div ref={mountRef} />;
+    return (
+        <>
+            <div className="lab-city-title">
+                <strong>Lab City 3D</strong>
+                <p>- Back to the Red -</p>
+            </div>
+            <div ref={mountRef} />
+        </>
+    );
 };
 
 export default ThreeScene;

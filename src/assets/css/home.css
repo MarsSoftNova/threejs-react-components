@@ -1,0 +1,13 @@
+.home-page {
+    margin: 5vh 20vw;
+}
+
+.home-title {
+    width: 100%;
+    text-align: center;
+    top: 10%;
+}
+
+.home-list li {
+    text-align: left;
+}
