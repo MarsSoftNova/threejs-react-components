@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import * as THREE from "three";
+import "../assets/css/cubesel.css";
 
 const Scene = () => {
     const mountRef = useRef(null);
@@ -245,7 +246,12 @@ const Scene = () => {
         };
     }, []);
 
-    return <div ref={mountRef} />;
+    return (
+        <>
+            <div id="info">Click: Select cube | Hover: Highlight | Space: Pause</div>
+            <div ref={mountRef} />
+        </>
+    );
 };
 
 export default Scene;
