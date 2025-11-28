@@ -1,70 +1,93 @@
-# Getting Started with Create React App
+# threejs-example
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A small React app demonstrating a few Three.js scenes and navigation between them.
 
-## Available Scripts
+This project was scaffolded with Create React App and uses:
 
-In the project directory, you can run:
+- React
+- Three.js for 3D rendering
+- GSAP for animations
+- React Router for navigation
 
-### `npm start`
+## Quick Start
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Prerequisites: Node.js (14+ recommended) and npm (or yarn).
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+1. Install dependencies
 
-### `npm test`
+```powershell
+npm install
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+2. Start the development server
 
-### `npm run build`
+```powershell
+npm start
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Open http://localhost:3000 in your browser. The app will hot-reload as you edit files.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+3. Build for production
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```powershell
+npm run build
+```
 
-### `npm run eject`
+4. Run tests
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```powershell
+npm test
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## What you'll find in this repo
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Top-level files
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+- `package.json` — dependencies and scripts
+- `public/` — static HTML + manifest
+- `src/` — React app source
 
-## Learn More
+Important source files
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- `src/index.js` — app entry
+- `src/App.js` — router + routes
+- `src/components/Homepage.js` — landing page
+- `src/components/CubeSelect.js` — a Three.js cube group scene
+- `src/components/LabCity.js` — another Three.js scene
+- `src/assets/css/` — styles used by scenes/pages
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Routes
 
-### Code Splitting
+- `/` — homepage
+- `/cube-group-rotate` — cube group rotation demo
+- `/lab-city` — lab city demo
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## Development notes
 
-### Analyzing the Bundle Size
+- Three.js scenes are implemented inside React components under `src/components/`. If you add new scenes, follow the existing pattern: create a component that mounts a Three.js renderer into a DOM node and clean up on unmount.
+- Animations use GSAP (see `package.json`).
+- Router is implemented with `react-router-dom` (v6+ API).
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## Tests & Quality
 
-### Making a Progressive Web App
+- This project uses Create React App test tooling. Run `npm test` for the test runner.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## Contributing
 
-### Advanced Configuration
+Contributions are welcome. If you add features, please:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+1. Add code under `src/components` or `src/assets` as appropriate.
+2. Update this README with any new routes or setup steps.
 
-### Deployment
+## License
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+This project does not include a license file. Add one if you plan to publish it (for example, MIT).
 
-### `npm run build` fails to minify
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+If you'd like, I can also:
+
+- Add a short developer guide for adding new Three.js scenes.
+- Add a minimal CONTRIBUTING.md and LICENSE file.
+
+Tell me which extras you'd like and I'll add them.
